@@ -1,3 +1,4 @@
+
 const express = require('express')
 const path = require("path");
 const app = express()
@@ -15,7 +16,7 @@ var options = {
 }
 app.use(express.static('build', options))
 
-const port = process.env.PORT || 3000
+const port = 3000
 
 app.listen(port, () => {
     console.log(`React app listening at http://localhost:${port}`)
