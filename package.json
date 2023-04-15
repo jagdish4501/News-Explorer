@@ -1,5 +1,5 @@
 {
-  "name": "News Explorer",
+  "name": "News-Explorer",
   "version": "0.1.0",
   "private": true,
    "scripts": {
@@ -16,9 +16,6 @@
     ]
   },
   "dependencies": {
-    "express": "4.17.3"
-  },
-  "devDependencies": {
     "@testing-library/jest-dom": "5.16.1",
     "@testing-library/react": "12.1.2",
     "@testing-library/user-event": "13.5.0",
