@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import NewsItem from './NewsItem';
 import Spinner from './Spinner';
 import PropTypes from 'prop-types';
-
+import axios from 'axios'
 
 function getRandomIntInclusive(min, max) {
     min = Math.ceil(min);
@@ -38,19 +38,37 @@ export default class News extends Component {
             this.fetchMoreArticles();
         }
     };
+    // async fetchMoreArticles() {
+    //     let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.newsType}&apiKey=${this.state.API_KYES[this.state.rnd_indx]}&page= ${this.state.page}& pageSize=${this.props.pageSize} `;
+    //     this.setState({ loading: true });
+    //     const data = await fetch(url);
+    //     const parshData = await data.json();
+    //     const newArticles = parshData.articles;
+    //     const hasMore = newArticles.length > 0;
+    //     this.setState({
+    //         page: this.state.page + 1,
+    //         articles: [...this.state.articles, ...newArticles],
+    //         totalArticles: parshData.totalResults,
+    //         loading: false,
+    //         hasMore,
+    //     });
+    // }
+
     async fetchMoreArticles() {
-        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.newsType}&apiKey=${this.state.API_KYES[this.state.rnd_indx]}&page= ${this.state.page}& pageSize=${this.props.pageSize} `;
+        const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.newsType}&apiKey=${this.state.API_KYES[this.state.rnd_indx]}&page= ${this.state.page}& pageSize=${this.props.pageSize} `;
         this.setState({ loading: true });
-        let data = await fetch(url);
-        let parshData = await data.json();
-        let newArticles = parshData.articles;
-        let hasMore = newArticles.length > 0;
-        this.setState({
-            page: this.state.page + 1,
-            articles: [...this.state.articles, ...newArticles],
-            totalArticles: parshData.totalResults,
-            loading: false,
-            hasMore,
+        await axios.get(url).then(res => {
+            const newArticles = res.data.articles;
+            const hasMore = newArticles.length > 0;
+            this.setState({
+                page: this.state.page + 1,
+                articles: [...this.state.articles, ...newArticles],
+                totalArticles: res.data.totalResults,
+                loading: false,
+                hasMore,
+            });
+        }).catch(err => {
+            console.error(err);
         });
     }
 
